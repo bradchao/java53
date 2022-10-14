@@ -21,7 +21,7 @@ public class Brad04 {
 		System.out.printf("%d - %d = %d\n", v1, v2, result2);
 		System.out.printf("%d x %d = %d\n", v1, v2, result3);
 		System.out.printf("%d / %d = %d\n", v1, v2, result4);
-		System.out.printf("%d 除 %d = %d\n", v1, v2, result5);
+		System.out.printf("%d %% %d = %d\n", v1, v2, result5);
 		
 	}
 
