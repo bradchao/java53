@@ -13,6 +13,7 @@ public class Brad25 {
 		}
 		System.out.println(b1.getSpeed());
 		System.out.println("---");
+		
 		Scooter s1 = new Scooter();
 		System.out.println(s1.getSpeed() + ":" + s1.getGear());
 		s1.changeGear(2);

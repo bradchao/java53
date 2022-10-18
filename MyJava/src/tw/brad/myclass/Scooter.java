@@ -2,6 +2,15 @@ package tw.brad.myclass;
 
 public class Scooter extends Bike{
 	private int gear;	// 0
+	private int color;
+	
+	public Scooter() {
+		this(2);
+	}
+	
+	public Scooter(int color) {
+		this.color = color;
+	}
 	
 	public void upSpeed() {
 		speed = speed < 1 ? 1 : speed + speed*gear;
