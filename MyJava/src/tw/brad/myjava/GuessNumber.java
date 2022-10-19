@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -15,6 +16,7 @@ public class GuessNumber extends JFrame implements ActionListener{
 	private JTextField input;
 	private JTextArea log;
 	private String answer;
+	private int counter;
 	
 	public GuessNumber() {
 		super("猜數字遊戲");
@@ -67,20 +69,37 @@ public class GuessNumber extends JFrame implements ActionListener{
 	
 	private void newRound() {
 		answer = createAnswer(3);
+		counter = 0;
+		log.setText("");
+		//System.out.println(answer);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		counter++;
 		String result = checkAB();
-		log.append(input.getText() + ":" + result + "\n");
+		log.append(counter + ". " + input.getText() + ":" + result + "\n");
+		if (result.equals("3A0B")) {
+			JOptionPane.showMessageDialog(null, "恭喜老爺");
+			newRound();
+		}else if ( counter == 10) {
+			JOptionPane.showMessageDialog(null, "魯蛇:" + answer);
+			newRound();
+		}
+		
+		input.setText("");
 	}
 	
 	private String checkAB() {
 		int a, b; a = b = 0;
-		for (int i=0; i<answer.length(); i++)){
-			if (answer中的第i馬 == guess中的第i馬 ) {
+		String gString = input.getText();
+		
+		for (int i=0; i<answer.length(); i++){
+			char ac = answer.charAt(i);
+			char gc = gString.charAt(i);
+			if (ac == gc) {
 				a++;
-			}else if (guess中的第i馬 是否存在於 a 中) {
+			}else if (answer.indexOf(gc) >= 0) {
 				b++;
 			}
 		}
