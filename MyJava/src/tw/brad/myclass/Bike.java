@@ -14,4 +14,9 @@ public class Bike extends Object {
 	public double getSpeed() {
 		return speed;
 	}
+	
+	public String toString() {
+		return "Bike:" + speed;
+	}
+	
 }
