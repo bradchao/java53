@@ -24,15 +24,33 @@ public class TWId {
 			.append((int)(Math.random()*10))
 			.append((int)(Math.random()*10))
 			.append((int)(Math.random()*10));
-		
-		
+		String temp = sb.toString();
+		for (int i=0; i<10; i++) {
+			if (isValidTWId(temp + i)) {
+				id = temp + i;
+			}
+		}
 	}
 	
+	public String getId() {
+		return id;
+	}
 	
+	public boolean isMale() {
+		return true;
+	}
 	
-//	public TWId(String id) {
-//		this.id = id;
-//	}
+	private TWId(String id) {
+		this.id = id;
+	}
+	
+	public static TWId createTWId(String id) {
+		TWId temp = null;
+		if (isValidTWId(id)) {
+			temp = new TWId(id);
+		}
+		return temp;
+	}
 	
 	public static boolean isValidTWId(String id) {
 		boolean ret = false;
