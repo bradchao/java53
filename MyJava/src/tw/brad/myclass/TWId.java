@@ -1,12 +1,44 @@
 package tw.brad.myclass;
 
 public class TWId {
+	private String id; 
+	private static String letters = "ABCDEFGHJKLMNPQRSTUVXYWZIO";
 
+	public TWId() {
+		this((int)(Math.random()*2) == 0);
+	}
+	public TWId(boolean isMale) {
+		this(isMale, (int)(Math.random()*26));
+	}
+	public TWId(int area) {
+		this((int)(Math.random()*2) == 0, area);
+	}
+	public TWId(boolean isMale, int area) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(letters.substring(area, area+1))
+			.append(isMale?"1":"2")
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10));
+		
+		
+	}
+	
+	
+	
+//	public TWId(String id) {
+//		this.id = id;
+//	}
+	
 	public static boolean isValidTWId(String id) {
 		boolean ret = false;
 		
 		if (id.matches("[A-Z][1289][0-9]{8}")) {
-			String letters = "ABCDEFGHJKLMNPQRSTUVXYWZIO";
+			letters = "ABCDEFGHJKLMNPQRSTUVXYWZIO";
 			char c1 = id.charAt(0);
 			int pos = letters.indexOf(c1);	// 0 - 25
 			int n12 = pos + 10;	// 10 - 35
