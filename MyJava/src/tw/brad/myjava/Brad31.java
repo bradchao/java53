@@ -6,7 +6,7 @@ public class Brad31 {
 
 	public static void main(String[] args) {
 		
-		String id = "A823456789";
+		String id = "A123456789";
 		if (TWId.isValidTWId(id)) {
 			System.out.println("OK");
 		}else {
