@@ -1,5 +1,7 @@
 package tw.brad.myjava;
 
+import tw.brad.myclass.Bike;
+
 public class Brad35 {
 
 	public static void main(String[] args) {
@@ -13,6 +15,15 @@ public class Brad35 {
 				
 			}
 		});
+		
+		Bike b1 = new Bike() {
+			@Override
+			public void upSpeed() {
+				
+			}
+		};
+		
+		
 	}
 	
 	static void m1(Brad351 obj) {
