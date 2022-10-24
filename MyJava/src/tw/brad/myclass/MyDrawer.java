@@ -11,9 +11,16 @@ import javax.swing.JPanel;
 
 public class MyDrawer extends JPanel {
 	//private LinkedList<LinkedList<HashMap<String, Integer>>> lines; // Lines<Line<Point>>
-	private LinkedList<LinkedList<Point>> lines, recyler; // Lines<Line<Point>>
+	//private LinkedList<LinkedList<Point>> lines, recyler; // Lines<Line<Point>>
+	private LinkedList<Line> lines, recyler; // Lines<Line<Point>>
+	
+	private Color nowColor;
 	
 	public MyDrawer() {
+		this(Color.BLUE);
+	}
+	
+	public MyDrawer(Color initColor) {
 		setBackground(Color.YELLOW);
 		
 		MyListener myListener = new MyListener();
@@ -22,6 +29,16 @@ public class MyDrawer extends JPanel {
 		
 		lines = new LinkedList<>();
 		recyler = new LinkedList<>();
+		
+		nowColor = initColor;
+		
+	}
+	
+	public Color getNowColor() {
+		return nowColor;
+	}
+	public void setNowColor(Color color) {
+		nowColor = color;
 	}
 	
 	public void clear() {
@@ -45,7 +62,6 @@ public class MyDrawer extends JPanel {
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		g2d.setColor(Color.BLUE);
 		g2d.setStroke(new BasicStroke(4));
 		
 //		for (LinkedList<HashMap<String, Integer>> line : lines ) {
@@ -58,11 +74,12 @@ public class MyDrawer extends JPanel {
 
 		//-----------------
 		
-		for (LinkedList<Point> line : lines ) {
-			
-			for (int i=1; i<line.size(); i++) {
-				Point p0 =  line.get(i-1);
-				Point p1 =  line.get(i);
+		for (Line line : lines ) {
+			g2d.setColor(line.getColor());
+			LinkedList<Point> points = line.getPoints();
+			for (int i=1; i<points.size(); i++) {
+				Point p0 =  points.get(i-1);
+				Point p1 =  points.get(i);
 				g2d.drawLine(p0.x, p0.y, p1.x, p1.y);
 			}
 		}
@@ -85,8 +102,9 @@ public class MyDrawer extends JPanel {
 			
 			Point point = new Point();
 			point.x = e.getX(); point.y = e.getY();
-			LinkedList<Point> line = new LinkedList<>();
-			line.add(point);
+			Line line = new Line();
+			line.setColor(nowColor);
+			line.addPoint(point);
 			
 			lines.add(line);
 			
@@ -104,7 +122,7 @@ public class MyDrawer extends JPanel {
 			//--------------------
 			Point point = new Point();
 			point.x = e.getX(); point.y = e.getY();
-			lines.getLast().add(point);
+			lines.getLast().addPoint(point);
 			
 			repaint();
 		}
@@ -127,6 +145,12 @@ class Line {
 	}
 	LinkedList<Point> getPoints(){
 		return points;
+	}
+	void setColor(Color color) {
+		this.color = color;
+	}
+	Color getColor() {
+		return color;
 	}
 }
 
