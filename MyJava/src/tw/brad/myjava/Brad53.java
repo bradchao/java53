@@ -3,18 +3,17 @@ package tw.brad.myjava;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-public class Brad52 {
+public class Brad53 {
 	public static void main(String[] args) {
 		String source = "dir1/coffee.jpg";
-		String target = "dir2/cafe.jpg";
+		String target = "dir2/cafe2.jpg";
 		long start = System.currentTimeMillis();
 		try {
 			FileOutputStream fout = new FileOutputStream(target);
-			
 			FileInputStream fin = new FileInputStream(source);
-			int c;
-			while ( (c = fin.read()) != -1) {
-				fout.write(c);
+			int len; byte[] buf = new byte[16*1024];
+			while ( (len = fin.read(buf)) != -1) {
+				fout.write(buf, 0, len);
 			}
 			fin.close();
 			
