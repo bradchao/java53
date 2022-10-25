@@ -8,6 +8,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 
@@ -52,13 +56,17 @@ public class MyDrawer extends JPanel {
 	}
 	
 	public void undo() {
-		recyler.add(lines.removeLast());
-		repaint();
+		if (lines.size() > 0) {
+			recyler.add(lines.removeLast());
+			repaint();
+		}
 	}
 	
 	public void redo() {
-		lines.add(recyler.removeLast());
-		repaint();
+		if (recyler.size() > 0) {
+			lines.add(recyler.removeLast());
+			repaint();
+		}
 	}
 	
 	public boolean saveJpeg(File saveFile) {
@@ -77,6 +85,26 @@ public class MyDrawer extends JPanel {
 			ret = false;
 		}
 		return ret;
+	}
+	
+	public void saveLines() throws Exception {
+		try(ObjectOutputStream oout = 
+			new ObjectOutputStream(
+				new FileOutputStream("dir1/sign.obj"))){
+			oout.writeObject(lines);
+		}
+	}
+	
+	public void loadLines() throws Exception {
+		ObjectInputStream oin = 
+			new ObjectInputStream(
+				new FileInputStream("dir1/sign.obj"));
+		Object obj = oin.readObject();
+		lines = (LinkedList<Line>)obj;
+		oin.close();
+		
+		repaint();
+
 	}
 	
 	@Override

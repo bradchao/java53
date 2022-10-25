@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import tw.brad.myclass.MyDrawer;
 
 public class MySign extends JFrame {
-	private JButton clear, undo, redo, chColor, save, saveas, load;
+	private JButton clear, undo, redo, chColor, save, saveObj, loadObj;
 	private MyDrawer myDrawer;
 	
 	public MySign() {
@@ -30,10 +30,13 @@ public class MySign extends JFrame {
 		redo = new JButton("Redo");
 		chColor = new JButton("Color");
 		save = new JButton("Save JPG");
+		saveObj = new JButton("Save Obj");
+		loadObj = new JButton("Load Obj");
 		
 		JPanel top = new JPanel(new FlowLayout());
 		top.add(clear); top.add(undo); top.add(redo);
 		top.add(chColor); top.add(save);
+		top.add(saveObj); top.add(loadObj);
 		
 		add(top, BorderLayout.NORTH);
 		
@@ -83,6 +86,27 @@ public class MySign extends JFrame {
 				saveJPG();
 			}
 		});
+		
+		saveObj.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					myDrawer.saveLines();
+				}catch (Exception e2) {
+				}
+			}
+		});
+		
+		loadObj.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					myDrawer.loadLines();
+				}catch (Exception e2) {
+				}
+			}
+		});
+		
 	}
 	
 	private void saveJPG() {
