@@ -3,6 +3,7 @@ package tw.brad.myclass;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -129,10 +130,10 @@ public class MyDrawer extends JPanel {
 	}
 }
 
-class Point {
+class Point implements Serializable{
 	public int x, y;
 }
-class Line {
+class Line implements Serializable{
 	private LinkedList<Point> points;
 	private Color color;
 	private int Width;
