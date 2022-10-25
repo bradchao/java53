@@ -1,13 +1,17 @@
 package tw.brad.myclass;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.LinkedList;
 
-import javax.swing.DebugGraphics;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class MyDrawer extends JPanel {
@@ -55,6 +59,24 @@ public class MyDrawer extends JPanel {
 	public void redo() {
 		lines.add(recyler.removeLast());
 		repaint();
+	}
+	
+	public boolean saveJpeg(File saveFile) {
+		boolean ret = true;
+		BufferedImage img = 
+			new BufferedImage(getWidth(), getHeight(), 
+				BufferedImage.TYPE_INT_RGB);
+		//Graphics2D g = img.createGraphics();
+		Graphics g = img.getGraphics();
+		paint(g);
+		g.dispose();
+		
+		try {
+			ImageIO.write(img, "jpg", saveFile);
+		}catch(Exception e) {
+			ret = false;
+		}
+		return ret;
 	}
 	
 	@Override

@@ -5,10 +5,13 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import tw.brad.myclass.MyDrawer;
@@ -26,10 +29,11 @@ public class MySign extends JFrame {
 		undo = new JButton("Undo");
 		redo = new JButton("Redo");
 		chColor = new JButton("Color");
+		save = new JButton("Save JPG");
 		
 		JPanel top = new JPanel(new FlowLayout());
 		top.add(clear); top.add(undo); top.add(redo);
-		top.add(chColor);
+		top.add(chColor); top.add(save);
 		
 		add(top, BorderLayout.NORTH);
 		
@@ -73,6 +77,24 @@ public class MySign extends JFrame {
 				changeColor();
 			}
 		});
+		save.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveJPG();
+			}
+		});
+	}
+	
+	private void saveJPG() {
+		JFileChooser jfc = new JFileChooser();
+		if (jfc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File saveFile = jfc.getSelectedFile();
+			if (myDrawer.saveJpeg(saveFile)) {
+				JOptionPane.showMessageDialog(null, "Save OK");
+			}else {
+				JOptionPane.showMessageDialog(null, "Save Failure");
+			}
+		}
 	}
 	
 	private void changeColor() {
