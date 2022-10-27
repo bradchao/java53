@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,11 +17,32 @@ import javax.swing.JPanel;
 public class MyPanel extends JPanel {
 	private Timer timer;
 	private int viewW, viewH;
+	private LinkedList<Ball> balls;
+	private BufferedImage[] ballImgs;
 	
 	public MyPanel() {
 		setBackground(Color.YELLOW);
+		
+		ballImgs = new BufferedImage[3];
+		try {
+			ballImgs[0] = ImageIO.read(new File("dir1/ball0.png"));
+			ballImgs[1] = ImageIO.read(new File("dir1/ball1.png"));
+			ballImgs[2] = ImageIO.read(new File("dir1/ball2.png"));
+		}catch (Exception e) {
+		}
+		
 		timer = new Timer();
 		timer.schedule(new RefreshTask(), 0, 16);
+		
+		balls = new LinkedList<>();
+		
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				clickEvent(e.getX(), e.getY());
+			}
+		});
+
 		
 	}
 	
@@ -31,6 +53,16 @@ public class MyPanel extends JPanel {
 		}
 	}
 	
+	private void clickEvent(int clickX, int clickY) {
+		// 產生新的 ball
+		Ball ball = new Ball(clickX - 32, clickY -32, this);
+		
+		// 放在 balls
+		balls.add(ball);
+		
+		// 並且 排程
+		timer.schedule(ball, 500, 30);
+	}	
 	
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -48,9 +80,9 @@ public class MyPanel extends JPanel {
 class Ball extends TimerTask {
 	private int x, y, dx, dy;
 	private int ball;	// 0, 1, 2
-	private MyPanel myPanel;
+	private JPanel myPanel;
 	
-	Ball(int x, int y, MyPanel myPanel){
+	Ball(int x, int y, JPanel myPanel){
 		this.x = x; this.y = y;
 		dx = dy = 4;
 		ball = (int)(Math.random()*3);
