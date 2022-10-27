@@ -71,7 +71,9 @@ public class MyPanel extends JPanel {
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		//g.drawImage(ballImg, ballX, ballY, null);
+		for (Ball ball: balls) {
+			g.drawImage(ballImgs[ball.getBall()], ball.getX(), ball.getY(), null);
+		}
 		
 	}
 	
@@ -88,6 +90,10 @@ class Ball extends TimerTask {
 		ball = (int)(Math.random()*3);
 		this.myPanel = myPanel;
 	}
+	
+	public int getX() {return x;}
+	public int getY() {return y;}
+	public int getBall() {return ball;}
 	
 	@Override
 	public void run() {
