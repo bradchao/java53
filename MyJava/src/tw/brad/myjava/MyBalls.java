@@ -29,8 +29,10 @@ public class MyBalls extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
+	// brad@brad.tw
 	private class MyPanel extends JPanel {
+		private int ballX, ballY;
+		
 		public MyPanel() {
 			setBackground(Color.YELLOW);
 			addMouseListener(new MouseAdapter() {
@@ -41,8 +43,9 @@ public class MyBalls extends JFrame {
 			});
 		}
 		
-		private void clickEvent(int x, int y) {
-			
+		private void clickEvent(int clickX, int clickY) {
+			ballX = clickX - 32; ballY = clickY - 32;
+			repaint();
 		}
 		
 		@Override
@@ -52,7 +55,7 @@ public class MyBalls extends JFrame {
 			
 			try {
 				BufferedImage img = ImageIO.read(new File("dir1/ball0.png"));
-				g.drawImage(img, 0, 0, null);
+				g.drawImage(img, ballX, ballY, null);
 			}catch (Exception e) {}
 			
 			
