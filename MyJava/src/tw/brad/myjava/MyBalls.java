@@ -6,9 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -32,9 +33,21 @@ public class MyBalls extends JFrame {
 	// brad@brad.tw
 	private class MyPanel extends JPanel {
 		private int ballX, ballY;
+		private BufferedImage ballImg;
+		private Timer timer;
 		
 		public MyPanel() {
 			setBackground(Color.YELLOW);
+			
+			try {
+				ballImg = ImageIO.read(new File("dir1/ball0.png"));
+			}catch (Exception e) {
+				
+			}
+			
+			timer = new Timer();
+			timer.schedule(new Task(), 1*1000, 30);
+			
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -48,16 +61,21 @@ public class MyBalls extends JFrame {
 			repaint();
 		}
 		
+		private class Task extends TimerTask {
+			@Override
+			public void run() {
+				ballX += 4;
+				ballY += 4;
+				repaint();
+			}
+		}
+		
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D)g;
 			
-			try {
-				BufferedImage img = ImageIO.read(new File("dir1/ball0.png"));
-				g.drawImage(img, ballX, ballY, null);
-			}catch (Exception e) {}
-			
+			g.drawImage(ballImg, ballX, ballY, null);
 			
 		}
 	}
