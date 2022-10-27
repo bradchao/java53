@@ -19,6 +19,7 @@ public class MyPanel extends JPanel {
 	private int viewW, viewH;
 	private LinkedList<Ball> balls;
 	private BufferedImage[] ballImgs;
+	private int imgW, imgH;
 	
 	public MyPanel() {
 		setBackground(Color.YELLOW);
@@ -28,6 +29,8 @@ public class MyPanel extends JPanel {
 			ballImgs[0] = ImageIO.read(new File("dir1/ball0.png"));
 			ballImgs[1] = ImageIO.read(new File("dir1/ball1.png"));
 			ballImgs[2] = ImageIO.read(new File("dir1/ball2.png"));
+			imgW = ballImgs[0].getWidth();
+			imgH = ballImgs[0].getHeight();
 		}catch (Exception e) {
 		}
 		
@@ -55,7 +58,8 @@ public class MyPanel extends JPanel {
 	
 	private void clickEvent(int clickX, int clickY) {
 		// 產生新的 ball
-		Ball ball = new Ball(clickX - 32, clickY -32, this);
+		Ball ball = new Ball(clickX - (int)(imgW/2.0), clickY -(int)(imgH/2.0), 
+				this, imgW, imgH);
 		
 		// 放在 balls
 		balls.add(ball);
@@ -83,9 +87,11 @@ class Ball extends TimerTask {
 	private int x, y, dx, dy;
 	private int ball;	// 0, 1, 2
 	private JPanel myPanel;
+	private int imgW, imgH;
 	
-	Ball(int x, int y, JPanel myPanel){
+	Ball(int x, int y, JPanel myPanel, int imgW, int imgH){
 		this.x = x; this.y = y;
+		this.imgW = imgW; this.imgH = imgH;
 		dx = dy = 4;
 		ball = (int)(Math.random()*3);
 		this.myPanel = myPanel;
@@ -97,10 +103,10 @@ class Ball extends TimerTask {
 	
 	@Override
 	public void run() {
-		if (x  <= 0 || x + 64 >= myPanel.getWidth()) {
+		if (x  <= 0 || x + imgW >= myPanel.getWidth()) {
 			dx *= -1;
 		}
-		if (y <= 0 || y + 64 >= myPanel.getHeight()) {
+		if (y <= 0 || y + imgH >= myPanel.getHeight()) {
 			dy *= -1;
 		}
 		x += dx;
