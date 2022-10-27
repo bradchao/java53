@@ -32,7 +32,7 @@ public class MyBalls extends JFrame {
 	}
 	// brad@brad.tw
 	private class MyPanel extends JPanel {
-		private int ballX, ballY;
+		private int ballX, ballY, dx, dy;
 		private BufferedImage ballImg;
 		private Timer timer;
 		
@@ -44,6 +44,9 @@ public class MyBalls extends JFrame {
 			}catch (Exception e) {
 				
 			}
+			
+			dx = dy = 4;
+			ballX = ballY = 10;
 			
 			timer = new Timer();
 			timer.schedule(new Task(), 1*1000, 30);
@@ -64,8 +67,14 @@ public class MyBalls extends JFrame {
 		private class Task extends TimerTask {
 			@Override
 			public void run() {
-				ballX += 4;
-				ballY += 4;
+				if (ballX  <= 0 || ballX + 64 >= getWidth()) {
+					dx *= -1;
+				}
+				if (ballY <= 0 || ballY + 64 >= getHeight()) {
+					dy *= -1;
+				}
+				ballX += dx;
+				ballY += dy;
 				repaint();
 			}
 		}
