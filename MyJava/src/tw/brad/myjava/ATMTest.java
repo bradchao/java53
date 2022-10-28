@@ -2,7 +2,17 @@ package tw.brad.myjava;
 
 public class ATMTest {
 	public static void main(String[] args) {
-
+		ATM atm = new ATM();
+		Bank bank = new Bank(atm);
+		Person a = new Person(atm, "A");
+		Person b = new Person(atm, "B");
+		Person c = new Person(atm, "C");
+		
+		bank.start();
+		a.start();
+		b.start();
+		c.start();
+		
 	}
 }
 
@@ -23,7 +33,7 @@ class ATM {
 			money -= get;
 			System.out.println("get:" + get + " => " + money + " : " + name);
 		}else {
-			System.out.println("get:xxx => " + name);
+			System.out.println("get:xxx => " + get + " : " + name);
 		}
 	}
 }
@@ -35,7 +45,10 @@ class Bank extends Thread{
 	@Override
 	public void run() {
 		for (int i=0; i<10; i++) {
-			atm.addMoney(200);
+			
+			synchronized (atm) {
+				atm.addMoney(200);
+			}
 			
 			try {
 				Thread.sleep(1000);
@@ -54,7 +67,9 @@ class Person extends Thread {
 	@Override
 	public void run() {
 		for (int i=0; i<20; i++) {
-			atm.getMoney(10 + (int)(Math.random()*50), name);
+			synchronized (atm) {
+				atm.getMoney(10 + (int)(Math.random()*50), name);
+			}
 			
 			try {
 				Thread.sleep(100);
