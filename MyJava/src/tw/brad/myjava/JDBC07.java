@@ -12,7 +12,7 @@ public class JDBC07 {
 	public static void main(String[] args) {
 		
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Keyword = ");
+		System.out.print("Keyword =  ");
 		String key = scanner.next();
 		
 		Properties prop = new Properties();
