@@ -60,7 +60,7 @@ public class JDBC06 {
 		
 		Statement stmt = conn.createStatement();
 		stmt.execute("DELETE FROM food");
-				
+		stmt.execute("ALTER TABLE food AUTO_INCREMENT = 1");
 		
 		String sql = "INSERT INTO food (name,addr,tel,city,town,picurl,lat,lng)" + 
 					" VALUES (?,?,?,?,?,?,?,?)";
