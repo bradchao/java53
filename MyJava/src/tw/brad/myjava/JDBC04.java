@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-public class JDBC03 {
+public class JDBC04 {
 	public static void main(String[] args) {
 		Properties prop = new Properties();
 		prop.put("user", "root");
@@ -18,12 +18,15 @@ public class JDBC03 {
 					prop);
 			
 			// 3. SQL statement
-			String sql1 = "INSERT INTO cust (cname,tel,birthday) VALUES ('tony','111','1999-01-02')";
-			String sql2 = "SELECT * FROM cust";
+			String sql1 = "INSERT INTO cust (cname,tel,birthday) VALUES" + 
+					" ('tony','111','1999-01-02')," +
+					" ('tony','111','1999-01-02')," +
+					" ('tony','111','1999-01-02')" ;
+			String sql2 = "DELETE FROM cust WHERE id >= 4";
+			String sql3 = "UPDATE cust SET cname='eric', tel='777' WHERE id = 3";
 			Statement stmt = conn.createStatement();
-			boolean b = stmt.execute(sql2);
-			
-			System.out.println(b);
+			int count = stmt.executeUpdate(sql3);
+			System.out.println(count);
 			
 			conn.close();
 			System.out.println("OK2");
