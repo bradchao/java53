@@ -4,6 +4,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.Properties;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class JDBC06 {
 
@@ -17,7 +25,8 @@ public class JDBC06 {
 		
 		try {
 			String json = getJSONString();
-			System.out.println(json);
+			parseJSON(json);
+			System.out.println("OK");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -40,8 +49,50 @@ public class JDBC06 {
 		return sb.toString();
 	}
 	
-	static void parseJSON(String json) {
+	static void parseJSON(String json) throws Exception {
+		Properties prop = new Properties();
+		prop.put("user", "root");
+		prop.put("password", "root");
 		
+		Connection conn = 
+				DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/eeit53", prop);
+		
+		Statement stmt = conn.createStatement();
+		stmt.execute("DELETE FROM food");
+				
+		
+		String sql = "INSERT INTO food (name,addr,tel,city,town,picurl,lat,lng)" + 
+					" VALUES (?,?,?,?,?,?,?,?)";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		JSONArray root = new JSONArray(json);
+		System.out.println("size: " + root.length());
+		for (int i=0; i<root.length(); i++) {
+			JSONObject row = root.getJSONObject(i);
+			pstmt.setString(1, row.getString("Name"));
+			pstmt.setString(2, row.getString("Address"));
+			pstmt.setString(3, row.getString("Tel"));
+			pstmt.setString(4, row.getString("City"));
+			pstmt.setString(5, row.getString("Town"));
+			pstmt.setString(6, row.getString("PicURL"));
+			try {
+				pstmt.setDouble(7, Double.parseDouble(row.getString("Latitude")));
+			}catch (Exception e) {
+				System.out.println(row.getString("Name") +":error1");
+				pstmt.setDouble(7, 0);
+			}
+			try {
+				pstmt.setDouble(8, Double.parseDouble(row.getString("Longitude")) );
+			}catch(Exception e) {
+				System.out.println(row.getString("Name") +":error2");
+				pstmt.setDouble(8, 0);
+			}
+			pstmt.executeUpdate();
+		}
+		
+		pstmt.close();
+		conn.close();
 	}
 	
 
