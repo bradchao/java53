@@ -3,14 +3,17 @@ package tw.brad.myjava;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Scanner;
 
+import tw.brad.myclass.BCrypt;
+
 public class JDBC11 {
 	private static Connection conn;
 	private final static String url = "jdbc:mysql://localhost:3306/eeit53";
-	private final static String sqlCheck = "SELECT count(*) FROM member WHERE account = ?";
+	private final static String sqlCheck = "SELECT count(*) count FROM member WHERE account = ?";
 	private static final String sqlInsert = "INSERT INTO member (account,passwd,realname) VALUES (?,?,?)";
 	
 	public static void main(String[] args) {
@@ -50,13 +53,32 @@ public class JDBC11 {
 	
 	
 	static boolean checkAccount(String account) {
+		boolean ret = false;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sqlCheck);
+			pstmt.setString(1, account);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			ret = rs.getInt("count") == 0;
+			pstmt.close();
+		}catch(Exception e) {}
 		
-		return true;
+		return ret;
 	}
 	
 	static boolean addData(String account, String passwd, String realname) {
-		
-		return true;
+		boolean ret = false;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sqlInsert);
+			pstmt.setString(1, account);
+			pstmt.setString(2, BCrypt.hashpw(passwd, BCrypt.gensalt()));
+			pstmt.setString(3, realname);
+			ret = pstmt.executeUpdate() != 0;
+			pstmt.close();
+		}catch(Exception e) {
+			
+		}
+		return ret;
 	}
 	
 }
