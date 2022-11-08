@@ -42,6 +42,21 @@ where p.supplierid in (
 	)
 )
 
+5. 銷售業績(營業額)排行榜
+orderdetail => product, unit, qty -> order orderid -> employee
+select e.lastname, sum(od.unitprice * od.quantity) sum from orders o
+join employees e on (o.employeeid = e.employeeid)
+join orderdetails od on (o.orderid = od.orderid)
+group by e.employeeid
+order by sum desc
+
+
+
+
+
+
+
+
 
 
 
