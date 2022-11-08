@@ -9,6 +9,7 @@ ORDER by nums DESC
 
 SELECT 
 FROM 
+JOIN
 WHERE
 GROUP BY
 HAVING
@@ -31,12 +32,18 @@ where supplierid in
     )
 )
 
-4. 查詢特定公司提供的商品
-select productname, supplierid from products
-where supplierid in (
+4. 查詢特定公司('Exotic Liquids', 'Tokyo Traders')提供的商品
+select productname, p.supplierid, s.companyname from products p
+join suppliers s on (s.supplierid = p.supplierid)
+where p.supplierid in (
 	select supplierid from suppliers
 	where companyname in (
 		'Exotic Liquids', 'Tokyo Traders'
 	)
 )
+
+
+
+
+
 	
