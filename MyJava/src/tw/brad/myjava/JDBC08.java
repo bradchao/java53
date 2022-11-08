@@ -32,7 +32,9 @@ public class JDBC08 {
 			ResultSet rs0 = stmt.executeQuery(sql0);
 			rs0.next();
 			int total = rs0.getInt("count");
-			int totalPage = total / rpp + 1;
+			int totalPage = (int)Math.ceil(total* 1.0 / rpp) ;
+			
+			if (page > totalPage) throw new MyException();
 			
 			
 			String sql = String.format("SELECT * FROM food LIMIT %d, %d", start, rpp);
@@ -49,10 +51,17 @@ public class JDBC08 {
 			rs.close();
 			
 			conn.close();
+		} catch (MyException e) {
+			
 		} catch (Exception e) {
 			
 		}
 
 	}
 
+}
+class MyException extends Exception {
+	public MyException() {
+		super("Brad Exception");
+	}
 }
