@@ -13,6 +13,8 @@ import tw.brad.myclass.Member;
 public class JDBC12 {
 	private final static String url = "jdbc:mysql://localhost:3306/eeit53";
 	private final static String sql = "SELECT * FROM member WHERE account = ?";
+	private final static String sqlUpdate = 
+		"UPDATE member SET passwd = ? WHERE id = ?";
 	
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
@@ -39,6 +41,29 @@ public class JDBC12 {
 							rs.getString("passwd"),
 							rs.getString("realname"));
 					System.out.printf("Welcome, %s", member.getRealname());
+					
+					System.out.println("Change Password...");
+					
+					System.out.print("Old Password: ");
+					String oldPasswd = scanner.next();
+					// check oldPasswd
+					if (BCrypt.checkpw(oldPasswd, member.getPasswd())) {
+						System.out.print("New Password: ");
+						String newPasswd = scanner.next();
+						
+						// change newPasswd
+						PreparedStatement pstmt2 = conn.prepareStatement(sqlUpdate);
+						pstmt2.setString(1, BCrypt.hashpw(newPasswd, BCrypt.gensalt()));
+						pstmt2.setInt(2, member.getId());
+						if (pstmt2.executeUpdate() != 0 ) {
+							System.out.println("Change passwd success");
+						}else {
+							System.out.println("Change passwd failure");
+						}
+					}else {
+						System.out.println("Passwd not match!");
+					}
+					
 				}else {
 					System.out.println("XX");
 				}

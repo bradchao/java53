@@ -10,6 +10,12 @@ public class Member {
 		this.passwd = passwd;
 		this.realname = realname;
 	}
+	
+	
+	public int getId() {
+		return id;
+	}
+
 	public String getAccount() {
 		return account;
 	}
