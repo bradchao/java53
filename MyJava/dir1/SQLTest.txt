@@ -50,6 +50,12 @@ join orderdetails od on (o.orderid = od.orderid)
 group by e.employeeid
 order by sum desc
 
+驗算
+select sum(unitprice * quantity) sum from orderdetails
+where orderid in 
+(select orderid from orders where employeeid = 4)
+
+
 
 
 
