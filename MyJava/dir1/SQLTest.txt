@@ -1,0 +1,42 @@
+1. 各客戶的訂單數量統計(CustomerID, count), 大於 20 筆, 排序
+	1.1 各客戶的訂單數量統計
+	1.2 大於 20 筆
+	1.3 排序
+select CustomerID, count(*) nums from orders
+GROUP by CustomerID
+HAVING nums >= 10
+ORDER by nums DESC
+
+SELECT 
+FROM 
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+LIMIT
+
+2. Seafood 的產品有哪些?
+SELECT `ProductName` FROM `products` WHERE `CategoryID` = 
+(Select CategoryID FROM categories WHERE CategoryName = 'Seafood')
+
+3. Seafood 的產品供應商
+select CompanyName, Phone from suppliers
+where supplierid in
+(
+	select supplierid from products 
+	where `CategoryID` = 
+	(
+        Select CategoryID FROM categories 
+        WHERE CategoryName = 'Seafood'
+    )
+)
+
+4. 查詢特定公司提供的商品
+select productname, supplierid from products
+where supplierid in (
+	select supplierid from suppliers
+	where companyname in (
+		'Exotic Liquids', 'Tokyo Traders'
+	)
+)
+	
