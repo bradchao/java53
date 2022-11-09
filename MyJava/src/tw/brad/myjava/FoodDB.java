@@ -96,8 +96,9 @@ public class FoodDB {
 			rs.updateDouble("lat", 0);
 			rs.updateDouble("lng",0);
 			rs.insertRow();
+			System.out.println("insert");
 		}catch(Exception e) {
-			
+			System.out.println(e);
 		}
 	}
 	

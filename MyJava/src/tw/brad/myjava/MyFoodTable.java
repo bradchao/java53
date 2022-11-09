@@ -1,5 +1,7 @@
 package tw.brad.myjava;
 
+import java.awt.Rectangle;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,7 +25,9 @@ public class MyFoodTable extends JTable {
 	}
 	
 	public void addRow() {
-		
+		tableModel.addRow(new String[2]);
+		repaint();
+		scrollRectToVisible(getCellRect(foodDB.getRows()+1, 0, false));
 	}
 	
 	private class MyTableModel extends DefaultTableModel {
@@ -60,7 +64,7 @@ public class MyFoodTable extends JTable {
 		
 		@Override
 		public void addRow(Object[] rowData) {
-			
+			foodDB.addData();
 		}
 		
 	}
