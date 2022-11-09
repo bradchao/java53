@@ -30,6 +30,16 @@ public class MyFoodTable extends JTable {
 		scrollRectToVisible(getCellRect(foodDB.getRows()+1, 0, false));
 	}
 	
+	public void newsql() {
+		try {
+			foodDB.queryData("SELECT id, name, tel FROM food ORDER BY name");
+			tableModel.setColumnIdentifiers(foodDB.getHeader());
+			repaint();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
 	private class MyTableModel extends DefaultTableModel {
 
 		@Override

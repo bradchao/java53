@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 
 public class MyFoodDB extends JFrame {
 	private MyFoodTable foodTable;
-	private JButton del, add;
+	private JButton del, add, test;
 	
 	public MyFoodDB() {
 		super();
@@ -29,8 +29,8 @@ public class MyFoodDB extends JFrame {
 		add(jsp, BorderLayout.CENTER);
 		
 		JPanel top = new JPanel(new FlowLayout());
-		del = new JButton("Del"); add = new JButton("Add");
-		top.add(del); top.add(add);
+		del = new JButton("Del"); add = new JButton("Add"); test = new JButton("Test");
+		top.add(del); top.add(add); top.add(test);
 		
 		add(top, BorderLayout.NORTH);
 		
@@ -52,6 +52,13 @@ public class MyFoodDB extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				foodTable.addRow();
+			}
+		});
+		
+		test.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				foodTable.newsql();
 			}
 		});
 	}
