@@ -3,6 +3,7 @@ package tw.brad.myjava;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 public class MyFoodDB extends JFrame {
 	private MyFoodTable foodTable;
@@ -12,8 +13,14 @@ public class MyFoodDB extends JFrame {
 		
 		setLayout(new BorderLayout());
 		
-		foodTable = new MyFoodTable();
-		add(foodTable, BorderLayout.CENTER);
+		try {
+			foodTable = new MyFoodTable();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		JScrollPane jsp = new JScrollPane(foodTable);
+		add(jsp, BorderLayout.CENTER);
 		
 		
 		

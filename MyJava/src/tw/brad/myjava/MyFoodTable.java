@@ -5,11 +5,16 @@ import javax.swing.table.DefaultTableModel;
 
 public class MyFoodTable extends JTable {
 	private MyTableModel tableModel;
+	private FoodDB foodDB;
 	
-	public MyFoodTable() {
+	public MyFoodTable() throws Exception {
+		
+		foodDB = new FoodDB();
+		foodDB.queryData("SELECT * FROM food");
 		
 		tableModel = new MyTableModel();
 		setModel(tableModel);
+		tableModel.setColumnIdentifiers(foodDB.getHeader());
 		
 	}
 	
@@ -17,12 +22,12 @@ public class MyFoodTable extends JTable {
 
 		@Override
 		public int getRowCount() {
-			return 7;
+			return foodDB.getRows();
 		}
 
 		@Override
 		public int getColumnCount() {
-			return 4;
+			return foodDB.getCols();
 		}
 
 		@Override
