@@ -15,6 +15,14 @@ public class MyFoodTable extends JTable {
 		tableModel = new MyTableModel();
 		setModel(tableModel);
 		tableModel.setColumnIdentifiers(foodDB.getHeader());
+	}
+	
+	public void delRow() {
+		tableModel.removeRow(getSelectedRow());
+		repaint();
+	}
+	
+	public void addRow() {
 		
 	}
 	
@@ -32,9 +40,28 @@ public class MyFoodTable extends JTable {
 
 		@Override
 		public Object getValueAt(int row, int column) {
-			return "Brad " +row + "x" + column;
+			return foodDB.getData(row+1, column+1);
+		}
+
+		@Override
+		public void setValueAt(Object aValue, int row, int column) {
+			foodDB.setData(row+1, column+1, (String)aValue);
+		}
+
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			return column > 0;
+		}
+
+		@Override
+		public void removeRow(int row) {
+			foodDB.delData(row+1);
+		}
+		
+		@Override
+		public void addRow(Object[] rowData) {
+			
 		}
 		
 	}
-
 }

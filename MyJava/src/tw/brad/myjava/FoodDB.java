@@ -54,7 +54,51 @@ public class FoodDB {
 		return fieldNames;
 	}
 	
+	public String getData(int row, int col) {
+		try {
+			rs.absolute(row);
+			String data = rs.getString(col);
+			return data;
+		}catch (Exception e) {
+			System.out.printf("%d : %d : %s\n", row, col, e.toString());
+			return null;
+		}
+	}
 	
+	public void setData(int row, int col, String data) {
+		try {
+			rs.absolute(row);
+			rs.updateString(col, data);
+			rs.updateRow();
+		}catch(Exception e) {
+			System.out.printf("%d : %d : %s : %s\n", row, col, e.toString());
+		}
+	}
 	
+	public void delData(int row) {
+		try {
+			rs.absolute(row);
+			rs.deleteRow();
+		}catch(Exception e) {
+			System.out.printf("%d : %s\n", row, e.toString());
+		}
+	}	
+	
+	public void addData() {
+		try {
+			rs.moveToInsertRow();
+			rs.updateString("name", "");
+			rs.updateString("tel", "");
+			rs.updateString("addr", "");
+			rs.updateString("city", "");
+			rs.updateString("town", "");
+			rs.updateString("picurl", "");
+			rs.updateDouble("lat", 0);
+			rs.updateDouble("lng",0);
+			rs.insertRow();
+		}catch(Exception e) {
+			
+		}
+	}
 	
 }
