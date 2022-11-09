@@ -68,6 +68,7 @@ public class JDBC14 {
 			
 			JSONWriter detail = jw.key("detail");
 			JSONWriter row = detail.array();
+			
 			row.object();
 			row.key("productid").value(rs.getString("productid"));
 			row.key("price").value(rs.getString("unitprice"));
